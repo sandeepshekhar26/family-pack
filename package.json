@@ -1,0 +1,57 @@
+{
+  "name": "family-pack",
+  "version": "0.1.0",
+  "description": "A cast of desi family-member code-analysis agents, built on auk's deterministic engine. Hinglish is a render skin; the substance is real static analysis.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "family-pack": "dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "node --experimental-strip-types --no-warnings --import ./scripts/ts-run.mjs src/cli/index.ts",
+    "test": "node --experimental-strip-types --no-warnings --import ./scripts/ts-run.mjs --test \"tests/**/*.test.ts\"",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "code-analysis",
+    "static-analysis",
+    "secrets-scanner",
+    "claude-code",
+    "mcp",
+    "auk",
+    "hinglish",
+    "developer-tools"
+  ],
+  "author": "Sandeep Kumar",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sandeepshekhar26/family-pack.git"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "auk-develop": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3"
+  }
+}

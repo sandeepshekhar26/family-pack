@@ -1,0 +1,16 @@
+node_modules/
+# Lockfile is intentionally untracked while auk-develop is consumed via a
+# local `npm link`; regenerate after auk-develop 1.2.0 is published to npm.
+package-lock.json
+dist/
+*.tsbuildinfo
+.DS_Store
+coverage/
+.env
+.env.local
+*.log
+.family-pack/
+*.tgz
+
+# auk writes an analysis cache next to whatever it scans (incl. test fixtures)
+.auk/
