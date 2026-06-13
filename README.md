@@ -33,6 +33,32 @@ npm install family-pack       # library + CLI
 # requires auk-develop >= 1.2.0 (the library entry point)
 ```
 
+## Claude Code plugin (primary surface)
+
+Install the plugin from this repo's marketplace, then call the family by name:
+
+```text
+/plugin marketplace add sandeepshekhar26/family-pack
+/plugin install family-pack@family-pack
+```
+
+Then in any project:
+
+```text
+/family-pack:buaji      [path] [--professional]   # issue finder
+/family-pack:padosi     [path] [--professional]   # secrets scanner
+/family-pack:chachaji   [path] [--budget <n>]     # cost guardian
+/family-pack:family     [path] [--professional]   # the starter trio
+```
+
+If a command doesn't appear after install, run `/reload-plugins`.
+
+Each command runs the deterministic engine (Stage 1/2) via the `family-pack`
+CLI, then **your own Claude Code agent** does the Stage 3 narration — explaining
+why each finding matters and proposing a concrete fix, in the character's voice.
+No API keys, exactly like auk's enhance loop. `--professional` strips the
+persona for clean technical output.
+
 ## CLI
 
 ```bash
@@ -97,10 +123,11 @@ src/
 ## Roadmap
 
 Shipped: foundation + the recommended launch trio (Bua Ji, Padosi Aunty,
-Chacha Ji). Planned next, in order: Saasu Maa (quality gate over auk
-`verify --ci`), Dada Ji (auk `decisions`), Sharma Ji Ka Beta (auk TF-IDF
-clusters), Chhota Cousin (sandboxed fuzz/edge-case engine), the Claude Code
-plugin (`/buaji`, `/padosi`, … slash commands), and the MCP tool surface.
+Chacha Ji), as a CLI, a library, and a **Claude Code plugin** (`/family-pack:buaji`,
+`:padosi`, `:chachaji`, `:family`). Planned next, in order: Saasu Maa (quality
+gate over auk `verify --ci`), Dada Ji (auk `decisions`), Sharma Ji Ka Beta (auk
+TF-IDF clusters), Chhota Cousin (sandboxed fuzz/edge-case engine), background
+hooks (Padosi on pre-commit, Saasu Maa as a gate), and the MCP tool surface.
 
 ## Development
 

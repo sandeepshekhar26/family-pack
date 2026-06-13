@@ -1,0 +1,14 @@
+{
+  "name": "family-pack",
+  "owner": { "name": "Sandeep Kumar" },
+  "plugins": [
+    {
+      "name": "family-pack",
+      "source": "./plugins/claude-code",
+      "description": "A cast of desi family-member code-analysis agents built on auk. Slash commands: /family-pack:buaji (issue finder), /family-pack:padosi (secrets scanner), /family-pack:chachaji (token/cost guardian), /family-pack:family (the starter trio). Deterministic engine; Hinglish is a render skin (use --professional to strip it).",
+      "version": "0.1.0",
+      "author": { "name": "Sandeep Kumar" },
+      "homepage": "https://github.com/sandeepshekhar26/family-pack"
+    }
+  ]
+}

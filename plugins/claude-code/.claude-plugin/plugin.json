@@ -1,0 +1,7 @@
+{
+  "name": "family-pack",
+  "description": "Desi family-member code-analysis agents built on auk's deterministic engine. Commands: /family-pack:buaji (issues), /family-pack:padosi (secrets), /family-pack:chachaji (cost), /family-pack:family (trio). Stage 1/2 run via the family-pack CLI; this agent does the no-API-key Stage 3 narration. Persona is a render skin — pass --professional for clean output.",
+  "version": "0.1.0",
+  "author": { "name": "Sandeep Kumar" },
+  "homepage": "https://github.com/sandeepshekhar26/family-pack"
+}
