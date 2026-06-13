@@ -83,10 +83,63 @@ export const chachaji: VoiceTemplate = {
     `${sevTag[f.severity]} ${String(f.meta?.estimatedTokens ?? '?')} tokens? Itna kharcha?!`,
 };
 
+export const saasuma: VoiceTemplate = {
+  id: 'saasuma',
+  name: 'Saasu Maa',
+  emoji: '😤',
+  professionalLabel: 'Quality Gate',
+  intro: (n) =>
+    n === 0
+      ? 'Hmmph. Theek hai... is baar pass kar diya. Lekin agli baar dhyan rakhna.'
+      : `Naa naa naa. Itni galtiyan? ${n} cheezein hai — aise toh ghar mein ghusne nahi dungi.`,
+  outro: (n) =>
+    n === 0 ? 'Chalo, aaj ke liye approve. Ahsaan samjho.' : 'Pehle yeh sab theek karo, phir approval ki baat karna.',
+  line: (f) => {
+    if (f.category === 'quality-gate')
+      return `${sevTag[f.severity]} Mera faisla: ${String(f.meta?.passed ? 'PASS (majburi mein)' : 'FAIL')}.`;
+    return `${sevTag[f.severity]} Yeh bhi theek karo — main sab dekhti hoon.`;
+  },
+};
+
+export const sharmaBeta: VoiceTemplate = {
+  id: 'sharma-beta',
+  name: 'Sharma Ji Ka Beta',
+  emoji: '🎓',
+  professionalLabel: 'Benchmarker (idiomatic vs yours)',
+  intro: (n) =>
+    n === 0
+      ? 'Wah! Tumne toh Sharma ji ke bete jaisa code likha. Maa-baap khush honge.'
+      : `Dekho beta, Sharma ji ka beta hota toh ${n} jagah aur idiomatic likhta. Seekho usse.`,
+  outro: (n) => (n === 0 ? 'Aise hi karte raho.' : 'Apne hi codebase ka pattern follow karo, mushkil nahi hai.'),
+  line: (f) =>
+    `${sevTag[f.severity]} Yeh "${String(f.meta?.cluster ?? 'family')}" pattern follow nahi karta — Sharma ka beta karta.`,
+};
+
+export const chotaCousin: VoiceTemplate = {
+  id: 'chota-cousin',
+  name: 'Chhota Cousin',
+  emoji: '😈',
+  professionalLabel: 'Edge-Case / Fuzz Tester',
+  intro: (n) =>
+    n === 0
+      ? 'Maine sab kuch dabaya, ghumaya, toda... par kuch nahi toota. Boring! Solid hai.'
+      : `Hehehe. Dekho maine kya kiya — ${n} jagah code phat gaya! Yeh button dabaun? *dabaya*`,
+  outro: (n) => (n === 0 ? 'Theek hai, ab khelne jaa raha hoon.' : 'Inko handle karo warna main phir aaunga!'),
+  line: (f) => {
+    const kind = String(f.meta?.failureKind ?? 'break');
+    if (kind === 'timeout') return `${sevTag[f.severity]} Yeh toh atak gaya — infinite loop? Ruk hi nahi raha!`;
+    if (kind === 'skipped') return `${sevTag[f.severity]} Yeh chalaun? Side-effects hai... pehle poochta hoon. *waits for opt-in*`;
+    return `${sevTag[f.severity]} Yeh input diya aur — dhamaka! Code ro raha hai.`;
+  },
+};
+
 const REGISTRY: Record<string, VoiceTemplate> = {
   buaji,
   'padosi-aunty': padosiAunty,
   chachaji,
+  saasuma,
+  'sharma-beta': sharmaBeta,
+  'chota-cousin': chotaCousin,
 };
 
 export function getTemplate(id: CharacterId): VoiceTemplate {

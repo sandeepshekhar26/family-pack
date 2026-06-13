@@ -1,6 +1,6 @@
 {
   "name": "family-pack",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A cast of desi family-member code-analysis agents, built on auk's deterministic engine. Hinglish is a render skin; the substance is real static analysis.",
   "type": "module",
   "main": "dist/index.js",

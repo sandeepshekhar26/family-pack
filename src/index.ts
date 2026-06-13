@@ -31,6 +31,15 @@ export {
 } from './characters/chachaji/index.js';
 export type { Ledger, LedgerEntry, GuardResult } from './characters/chachaji/index.js';
 
+// Characters (the rest of the family)
+export { runSaasuma } from './characters/saasuma/index.js';
+export type { GateConfig, GateResult } from './characters/saasuma/index.js';
+export { runSharmaBeta, benchmark } from './characters/sharma-beta/index.js';
+export { runChotaCousin, fuzzFile } from './characters/chota-cousin/index.js';
+export type { FuzzOptions } from './characters/chota-cousin/index.js';
+export { harvestSignatures } from './characters/chota-cousin/signature.js';
+export { generateCases, candidatesFor } from './characters/chota-cousin/generate.js';
+
 // Persona render layer
 export { render } from './personas/voice.js';
 export type { RenderOptions } from './personas/voice.js';

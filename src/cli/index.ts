@@ -18,6 +18,9 @@ import { buildPromptBatch } from '../core/llm-pass.js';
 import { runBuaji } from '../characters/buaji/index.js';
 import { runPadosi } from '../characters/padosi-aunty/index.js';
 import { runChachaji } from '../characters/chachaji/index.js';
+import { runSaasuma } from '../characters/saasuma/index.js';
+import { runSharmaBeta } from '../characters/sharma-beta/index.js';
+import { runChotaCousin } from '../characters/chota-cousin/index.js';
 import { render } from '../personas/voice.js';
 
 interface CliOptions {
@@ -26,6 +29,10 @@ interface CliOptions {
   top?: number;
   budget: number;
   ci: boolean;
+  /** Chhota Cousin: only fuzz this function. */
+  fn?: string;
+  /** Chhota Cousin: opt in to executing effectful targets. */
+  unsafe: boolean;
 }
 
 const HELP = `family-pack — desi family code-analysis agents (built on auk)
@@ -34,30 +41,37 @@ Usage:
   family-pack <character> [path] [flags]
 
 Characters:
-  buaji      Issue finder    — god objects, cycles, long functions, conventions
-  padosi     Secrets scanner — API keys, tokens, high-entropy leaks
-  chachaji   Cost guardian   — token budget for the LLM pass
-  family     Run the starter trio (buaji + padosi + chachaji)
+  buaji        Issue finder    — god objects, cycles, long functions, conventions
+  padosi       Secrets scanner — API keys, tokens, high-entropy leaks
+  chachaji     Cost guardian   — token budget for the LLM pass
+  saasuma      Quality gate    — pass/fail over issues + secrets (CI-ready)
+  sharmabeta   Benchmarker     — your code vs your codebase's idiomatic shape
+  chotacousin  Fuzz tester     — sandboxed edge-case hunting (use --fn)
+  family       Run the starter trio (buaji + padosi + chachaji)
 
 Flags:
   --professional   Strip persona; clean technical output
   --json           Machine-readable JSON
   --top <n>        Keep only the top-N findings
   --budget <n>     Chacha Ji token budget (default 50000)
+  --fn <name>      Chhota Cousin: only fuzz this function
+  --unsafe         Chhota Cousin: also execute effectful targets (opt-in)
   --ci             Exit 1 if any critical finding is present
   -h, --help       Show this help
 `;
 
 function parseArgs(argv: string[]): { character?: string; target: string; opts: CliOptions } {
-  const opts: CliOptions = { professional: false, json: false, budget: 50_000, ci: false };
+  const opts: CliOptions = { professional: false, json: false, budget: 50_000, ci: false, unsafe: false };
   const positional: string[] = [];
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--professional') opts.professional = true;
     else if (a === '--json') opts.json = true;
     else if (a === '--ci') opts.ci = true;
+    else if (a === '--unsafe') opts.unsafe = true;
     else if (a === '--top') opts.top = Number(argv[++i]);
     else if (a === '--budget') opts.budget = Number(argv[++i]);
+    else if (a === '--fn') opts.fn = argv[++i];
     else if (a === '-h' || a === '--help') positional.push('--help');
     else positional.push(a);
   }
@@ -72,6 +86,11 @@ async function runCharacter(
   const rank = { topN: opts.top };
   if (character === 'buaji') return runBuaji(target, rank);
   if (character === 'padosi-aunty') return runPadosi(target, rank);
+  if (character === 'sharma-beta') return runSharmaBeta(target, rank);
+  if (character === 'saasuma') return (await runSaasuma(target)).findings;
+  if (character === 'chota-cousin') {
+    return runChotaCousin(target, { fn: opts.fn, unsafe: opts.unsafe, topN: opts.top });
+  }
   if (character === 'chachaji') {
     // Demonstrate the pre-LLM-call hook: price the enhance pass Bua Ji would
     // trigger over `target` against the budget.
@@ -94,6 +113,16 @@ const ALIASES: Record<string, CharacterId> = {
   aunty: 'padosi-aunty',
   chachaji: 'chachaji',
   chacha: 'chachaji',
+  saasuma: 'saasuma',
+  saasumaa: 'saasuma',
+  saasu: 'saasuma',
+  sharmabeta: 'sharma-beta',
+  'sharma-beta': 'sharma-beta',
+  sharma: 'sharma-beta',
+  chotacousin: 'chota-cousin',
+  'chota-cousin': 'chota-cousin',
+  chota: 'chota-cousin',
+  cousin: 'chota-cousin',
 };
 
 async function main(): Promise<void> {
